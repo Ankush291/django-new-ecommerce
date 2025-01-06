@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .models import Product
+from .models import Product, Category
 from .forms import RegistrationForm
 
 # Create your views here.
@@ -63,3 +63,14 @@ def product(request, pk):
         'product': product
     }
     return render(request, 'product.html', context)
+
+def category(request, foo):
+    foo = foo.replace('-', ' ')
+    
+    try:
+        category = Category.objects.get(name=foo)
+        products = Product.objects.filter(category=category)
+        return redirect(request, 'category.html', {'products': products, 'category': category})
+    except:
+        messages.success(request, ("Category does not exist"))
+        return redirect('home')
