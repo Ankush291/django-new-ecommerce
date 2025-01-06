@@ -56,3 +56,10 @@ def register_user(request):
             'form': form
         }
         return render(request, 'register.html', context)
+    
+def product(request, pk):
+    product = Product.objects.get(id=pk)
+    context = {
+        'product': product
+    }
+    return render(request, 'product.html', context)
