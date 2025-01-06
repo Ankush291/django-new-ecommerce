@@ -2,11 +2,14 @@ from django.db import models
 import datetime
 # Create your models here.
 
-class Categories(models.Model):
+class Category(models.Model):
     name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name_plural = 'categories'
     
 class Customer(models.Model):
     first_name = models.CharField(max_length=50)
@@ -21,7 +24,7 @@ class Customer(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=50)
     price = models.DecimalField(default=0, decimal_places=2, max_digits=6)
-    category = models.ForeignKey(Categories, on_delete=models.CASCADE, default=1)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
     description = models.TextField(default='', null=True, blank=True)
     image = models.ImageField(upload_to='uploads/product/')
 
